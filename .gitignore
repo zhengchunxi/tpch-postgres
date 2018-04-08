@@ -3,3 +3,5 @@ dbgen
 qgen
 *.tbl
 *.csv
+dss/queries
+dss/data
