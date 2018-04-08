@@ -16,7 +16,7 @@ password=$5
 database=$6
 
 
-sql_file=${dirPath}/sql_file.sql
+sql_file=${dirPath}/load-csv.sql
 
 # 如果存在旧版的sql文件，则删除
 if [ -f "$sql_file" ];then
