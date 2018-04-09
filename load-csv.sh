@@ -1,20 +1,13 @@
 #!/bin/bash
 #author: zhengchunxi@k2data.com.cn
 
-if [ $# -lt 6 ]; then
-  echo "usage: $0 csv数据目录 用户名 host 端口 密码 数据库名"
+if [ $# -lt 1 ]; then
+  echo "usage: $0 csv数据目录"
   exit -1
 fi
 
-
 dirPath=$(dirname $(readlink -f $0))
 dataDir=$1
-username=$2
-host=$3
-port=$4
-password=$5
-database=$6
-
 
 sql_file=${dirPath}/load-csv.sql
 
@@ -27,8 +20,11 @@ for filename in $(ls ${dataDir} | grep .csv$);
 do
     real_path=$(readlink -f ${dataDir}/${filename})
     table=${filename%%.*}
-    echo "$real_path"
+    echo "扫描到数据文件: $real_path"
+    echo "生成导入sql语句: copy $table from '${real_path}' with CSV DELIMITER '|';"
     echo "copy $table from '${real_path}' with CSV DELIMITER '|';" >> ${sql_file}
 done
 
-psql -U ${username} -h ${host} -p ${port} -d ${database} -f ${sql_file}
+source ${dirPath}/postgres.env
+psql -h ${PGHOST} -d ${PGDB} -f ${sql_file}
+rm ${sql_file}
