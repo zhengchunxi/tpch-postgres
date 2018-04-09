@@ -14,12 +14,12 @@ password=$4
 database=$5
 
 alter_sql="${dirPath}/dss.ri.sql"
-if [ -f "$alter_sql" ];then
-  rm ${qlter_sql}
-fi
+#if [ -f "$alter_sql" ];then
+#  rm ${qlter_sql}
+#fi
 
-cp ${dirPath}/dss.ri ${alter_sql} 
-sed -i 's/CONNECT/--CONNECT/g' ${alter_sql}
-sed -i 's/TPCD.//g' ${alter_sql}
+#cp ${dirPath}/dss.ri ${alter_sql} 
+#sed -i 's/CONNECT/--CONNECT/g' ${alter_sql}
+#sed -i 's/TPCD.//g' ${alter_sql}
 
 psql -U ${username} -h ${host} -p ${port} -d ${database} -f ${alter_sql}
